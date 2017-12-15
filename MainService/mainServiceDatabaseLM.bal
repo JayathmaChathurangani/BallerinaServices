@@ -60,6 +60,46 @@ service<http> DatabaseLM {
 
     @http:resourceConfig {
         methods:["GET"],
+        path:"/component/versionDropDown/{componentName}"
+    }
+    resource fillCompponentVersionDropDownResource (http:Request request, http:Response response,string componentName) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+
+        if(sqlConnection != null){
+            json jsonresponse = Database:selectComponentVersionDropDown(sqlConnection, componentName);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/component/nameDropDown"
+    }
+    resource fillComponentNameDropDownResource (http:Request request, http:Response response) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+
+        if(sqlConnection != null){
+            json jsonresponse = Database:selectComponentNameDropDown(sqlConnection);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
         path:"/product/nameDropDown"
     }
     resource fillProductNameDropDownResource (http:Request request, http:Response response) {
@@ -83,7 +123,6 @@ service<http> DatabaseLM {
         path:"/product/versionDropDown/{productName}"
     }
     resource fillLibraryVersionDropDownResource (http:Request request, http:Response response,string productName) {
-        println(productName);
         if(sqlConnection == null){
             sqlConnection = Database:getDatabaseConfiguration();
         }
@@ -246,6 +285,114 @@ service<http> DatabaseLM {
             var prName, _ = (string)params.productName;
             var prVersion, _ = (string)params.productVersion;
             json jsonresponse = Database:selectProductComponentsForLibrary(sqlConnection, prName,prVersion, libraryName, libVersion);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/library/view/{libraryName}"
+    }
+    resource getViewByLibrary (http:Request request, http:Response response,string libraryName) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+
+        if(sqlConnection != null){
+            map params = request.getQueryParams();
+            var libVersion, _ = (string)params.libraryVersion;
+            json jsonresponse = Database:viewByLibrary(sqlConnection, libraryName, libVersion);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/view/productandcomponentlist"
+    }
+    resource getProductAndComponentList (http:Request request, http:Response response) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+        if(sqlConnection != null){
+            json jsonresponse = Database:selectProductsAndComponents(sqlConnection);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/view/component/librarylist/{componentName}"
+    }
+    resource getLibrariesForSelectedComponent (http:Request request, http:Response response, string componentName) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+        if(sqlConnection != null){
+            map params = request.getQueryParams();
+            var componentVersion, _ = (string)params.compVersion;
+
+            json jsonresponse = Database:selectLibrariesForSelectedComponent(sqlConnection, componentName, componentVersion);
+
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/view/product/librarylist/{productName}"
+    }
+    resource getLibrariesForSelectedProduct (http:Request request, http:Response response, string productName) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+        if(sqlConnection != null){
+            map params = request.getQueryParams();
+            var productVersion, _ = (string)params.prodVersion;
+            json jsonresponse = Database:selectLibrariesForSelectedProduct(sqlConnection, productName, productVersion);
+            response.setJsonPayload(jsonresponse);
+        }else{
+            json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
+            response.setJsonPayload(errorMessage);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.send();
+    }
+
+    @http:resourceConfig {
+        methods:["GET"],
+        path:"/view/component/{componentName}"
+    }
+    resource getComponentDetails (http:Request request, http:Response response, string componentName) {
+        if(sqlConnection == null){
+            sqlConnection = Database:getDatabaseConfiguration();
+        }
+        if(sqlConnection != null){
+            map params = request.getQueryParams();
+            var componentVersion, _ = (string)params.compVersion;
+
+            json jsonresponse = Database:selectComponentDetails(sqlConnection, componentName, componentVersion);
+
             response.setJsonPayload(jsonresponse);
         }else{
             json errorMessage = {"responseType":"Error","responseMessage":"Connection Error"};
