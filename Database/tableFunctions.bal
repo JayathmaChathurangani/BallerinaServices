@@ -49,11 +49,13 @@ public function selectLibraryDropDown(sql:ClientConnector sqlConnection)(json){
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Library Names were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -77,11 +79,13 @@ public function selectLibraryVersionDropDown(sql:ClientConnector sqlConnection, 
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Library Versions were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -103,11 +107,13 @@ public function selectProductDropDown(sql:ClientConnector sqlConnection)(json){
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Product Names were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -133,10 +139,12 @@ public function selectProductVersionDropDown(sql:ClientConnector sqlConnection, 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
             libdt.close();
+            log:printInfo("Product Versions were Successfully Retreived");
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -161,11 +169,13 @@ public function selectComponentVersionDropDown(sql:ClientConnector sqlConnection
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Component Versions were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -191,11 +201,13 @@ public function selectProductComponents(sql:ClientConnector sqlConnection, strin
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Components of the Products were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -221,11 +233,13 @@ public function selectProductLibraries(sql:ClientConnector sqlConnection, string
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Product Libraries were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -251,11 +265,13 @@ public function selectComponentLibraries(sql:ClientConnector sqlConnection, stri
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Component Libraries were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -281,11 +297,13 @@ public function selectProductsUsingLibrary(sql:ClientConnector sqlConnection, st
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Products using the given Library were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -311,11 +329,13 @@ public function selectComponentsUsingLibrary(sql:ClientConnector sqlConnection, 
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Components using the given Library were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -341,11 +361,13 @@ public function selectArtifactGroupIDsLibrary(sql:ClientConnector sqlConnection,
 
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
+            log:printInfo("Artifact ID and Group ID of the given Library were Successfully Retreived");
             libdt.close();
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"NotFound"};
@@ -393,6 +415,7 @@ public function selectProductComponentsForLibrary(sql:ClientConnector sqlConnect
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         libdtLbComponents.close();
         libdtPrComponents.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     if(matchCount > 0){
@@ -430,6 +453,8 @@ public function viewByLibrary(sql:ClientConnector sqlConnection, string givenLib
             returnMsg.data[lengthof returnMsg.data]=element;
         }
 
+        log:printInfo("Finished retrieving products using the given library");
+
         while (libdtLibraryComponents.hasNext()) {
             var component, _ = (Components)libdtLibraryComponents.getNext();
             string compName  = component.COMP_NAME;
@@ -449,11 +474,13 @@ public function viewByLibrary(sql:ClientConnector sqlConnection, string givenLib
                 returnMsg.data[lengthof returnMsg.data]=element;
             }
         }
+        log:printInfo("Finished retrieving components using the given library");
         return returnMsg;
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         libdtLibraryProducts.close();
         libdtLibraryComponents.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Other","responseMessage":"NotFound"};
@@ -478,10 +505,12 @@ public function selectComponentNameDropDown(sql:ClientConnector sqlConnection)(j
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
             dtComponent.close();
+            log:printInfo("Successfully retireved Component names");
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -508,10 +537,12 @@ public function componentLibraries(sql:ClientConnector sqlConnection, string req
         if(lengthof JSONResponse != 0){
             log:printDebug(JSONResponse.toString());
             libdt.close();
+            log:printInfo("Successfully retireved Component Libraries");
             return JSONResponse;
         }
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Error","responseMessage":"Not Found"};
@@ -539,6 +570,7 @@ public function selectProductsAndComponents(sql:ClientConnector sqlConnection)(j
             element = {"NAME": product.PRODUCT_NAME};
             returnMsg.products[lengthof returnMsg.products]=element;
         }
+        log:printInfo("Finished retreiving product names");
 
         while (dtComponents.hasNext()) {
             var component, _ = (ComponentList)dtComponents.getNext();
@@ -547,11 +579,15 @@ public function selectProductsAndComponents(sql:ClientConnector sqlConnection)(j
         }
         dtProducts.close();
         dtComponents.close();
+
+        log:printInfo("Finished retreiving component names");
+
         return returnMsg;
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         dtProducts.close();
         dtComponents.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Other","responseMessage":"NotFound"};
@@ -606,16 +642,20 @@ public function selectLibrariesForSelectedComponent(sql:ClientConnector sqlConne
                     element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"NotFound", "GROUP_ID":JSONResponse[i].LM_GROUP_ID, "ARTIFACT_ID":JSONResponse[i].LM_ARTIFACT_ID};
                     returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
                 }
+            } else{
+                element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"CannotResolved", "GROUP_ID":"", "ARTIFACT_ID":""};
+                returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
             }
-            element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"CannotResolved", "GROUP_ID":"", "ARTIFACT_ID":""};
-            returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
             i = i + 1;
         }
+
+        log:printInfo("Retreiving library details");
         dtLibrary.close();
         return returnMsg;
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         dtLibrary.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Other","responseMessage":"NotFound"};
@@ -651,6 +691,8 @@ public function selectComponentDetails(sql:ClientConnector sqlConnection, string
             i = i + 1;
         }
 
+        log:printInfo("Finished retreiving component details");
+
         var JSONCompType, err = <json>dtCompDetails;
         if(JSONCompType[0].COMP_TYPE != null){
             returnMsg.ComponentType = JSONCompType[0].COMP_TYPE;
@@ -663,6 +705,7 @@ public function selectComponentDetails(sql:ClientConnector sqlConnection, string
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         dtCompDetails.close();
         dtCompProducts.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Other","responseMessage":"NotFound"};
@@ -717,16 +760,20 @@ public function selectLibrariesForSelectedProduct(sql:ClientConnector sqlConnect
                     element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"NotFound", "GROUP_ID":JSONResponse[i].LM_GROUP_ID, "ARTIFACT_ID":JSONResponse[i].LM_ARTIFACT_ID};
                     returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
                 }
+            }else{
+                element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"CannotResolved", "GROUP_ID":"", "ARTIFACT_ID":""};
+                returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
             }
-            element = {"LIB_NAME":JSONResponse[i].LIB_NAME, "LIB_TYPE":JSONResponse[i].LIB_TYPE, "LIB_VERSION":JSONResponse[i].LIB_VERSION, "LATEST_VERSION":"CannotResolved", "GROUP_ID":"", "ARTIFACT_ID":""};
-            returnMsg.Libraries[lengthof returnMsg.Libraries] = element;
+
             i = i + 1;
         }
         dtLibrary.close();
+        log:printInfo("Library details for the given product successfully retreived");
         return returnMsg;
     }catch (error err) {
         json errorMessage = {"responseType":"Error","responseMessage":err.msg};
         dtLibrary.close();
+        log:printError(err.msg);
         return errorMessage;
     }
     json errorMessage = {"responseType":"Other","responseMessage":"NotFound"};

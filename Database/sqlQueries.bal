@@ -15,15 +15,15 @@ string LM_DB_COMPONENT_DROP_DOWN = "SELECT DISTINCT(COMP_NAME)
 
 string LM_DB_LIBRARY_VERSION_DROP_DOWN = "SELECT DISTINCT LIB_VERSION
                                             FROM LM_LIBRARY
-                                            WHERE LIB_NAME = ?";
+                                            WHERE LIB_NAME = ? AND LIB_VERSION <> ''";
 
 string LM_DB_PRODUCT_VERSION_DROP_DOWN = "SELECT DISTINCT PRODUCT_VERSION
                                             FROM LM_PRODUCT
-                                            WHERE PRODUCT_NAME = ?";
+                                            WHERE PRODUCT_NAME = ? AND PRODUCT_VERSION <> ''";
 
 string LM_DB_COMPONENT_VERSION_DROP_DOWN = "SELECT DISTINCT COMP_VERSION
                                             FROM LM_COMPONENT
-                                            WHERE COMP_NAME = ?";
+                                            WHERE COMP_NAME = ? AND COMP_VERSION <> ''";
 
 string LM_DB_LIBRARY_ARTIFACT_GROUP = "SELECT LM_ARTIFACT_ID, LM_GROUP_ID, LIB_TYPE
                                             FROM LM_LIBRARY
